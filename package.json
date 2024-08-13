@@ -2,22 +2,30 @@
   "name": "notes-graphql",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "node-pg-migrate"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.4",
     "@apollo/server": "^4.11.0",
     "@as-integrations/next": "^3.1.0",
     "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@prisma/client": "^5.18.0",
     "framer-motion": "^11.3.24",
     "graphql-tag": "^2.12.6",
+    "nanoid": "^5.0.7",
     "next": "14.2.5",
+    "node-pg-migrate": "^7.6.1",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.3.0"
@@ -28,6 +36,8 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "prisma": "^5.18.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
