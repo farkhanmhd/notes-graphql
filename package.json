@@ -13,7 +13,6 @@
     "migrate": "node-pg-migrate"
   },
   "dependencies": {
-    "@apollo/client": "^3.11.4",
     "@apollo/server": "^4.11.0",
     "@as-integrations/next": "^3.1.0",
     "@chakra-ui/next-js": "^2.2.0",

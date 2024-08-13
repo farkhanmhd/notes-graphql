@@ -4,6 +4,7 @@ import { Providers } from "./providers";
 import { Metadata } from "next";
 import theme from "./theme";
 import Header from "./components/Header";
+
 export const metadata: Metadata = {
   title: "Notes Application",
   description: "A simple notes application",

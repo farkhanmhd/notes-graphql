@@ -1,5 +1,6 @@
 import { Container, Box } from "@chakra-ui/react";
 import NotesGrid from "./components/NotesGrid";
+import { getNotes } from "./api/graphql/services";
 
 export interface INote {
   id: string;
@@ -8,8 +9,8 @@ export interface INote {
   createdAt: string;
 }
 
-export default function Page() {
-  const notes: INote[] = [];
+export default async function Page() {
+  const notes = await getNotes();
 
   return (
     <Container as='main' maxW='6xl'>
