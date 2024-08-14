@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { INotesForm } from "@/app/definitions";
+import { unstable_noStore as noStore } from "next/cache";
 
 export async function getNotes() {
   try {
@@ -139,5 +140,58 @@ export async function createNote(prevState: NoteState, formData: FormData) {
     };
   }
   revalidatePath("/");
+  redirect("/");
+}
+
+const UpdateNote = NoteSchema.omit({ id: true, createdAt: true });
+
+export async function updateNote(id: string, prevState: NoteState, formData: FormData) {
+  noStore();
+  const validatedFields = UpdateNote.safeParse({
+    title: formData.get("title"),
+    body: formData.get("body"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing fields, Failed to update note",
+    };
+  }
+
+  const { title, body }: INotesForm = validatedFields.data;
+
+  try {
+    await fetch(`${process.env.ENDPOINT}/api/graphql`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+          mutation ($id: ID!, $title: String!, $body: String!) {
+            updateNote(id: $id, title: $title, body: $body) {
+              id
+              title
+              body
+              createdAt
+            }
+          }
+        `,
+        variables: {
+          id,
+          title,
+          body,
+        },
+      }),
+    });
+  } catch (error) {
+    return {
+      message: "Failed to update note",
+    };
+  }
+
+  revalidatePath("/");
+  revalidatePath(`/${id}`);
   redirect("/");
 }

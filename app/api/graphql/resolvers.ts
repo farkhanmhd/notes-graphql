@@ -4,7 +4,9 @@ import { nanoid } from "nanoid";
 export const resolvers = {
   Query: {
     notes: () => {
-      return prisma.note.findMany();
+      return prisma.note.findMany({
+        orderBy: { createdAt: "asc" },
+      });
     },
     note: (_: any, args: any) => {
       return prisma.note.findUnique({ where: { id: args.id } });

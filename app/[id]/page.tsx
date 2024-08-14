@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { title, body } = await getNote(params.id);
   return (
     <Container as='main' maxW='6xl'>
-      <EditNoteForm title={title} body={body} />
+      <EditNoteForm title={title} body={body} id={params.id} />
     </Container>
   );
 }
