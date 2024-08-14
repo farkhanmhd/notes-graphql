@@ -1,10 +1,16 @@
 import { Container } from "@chakra-ui/react";
-import NotesForm from "../components/NotesForm";
+import CreateNoteForm from "../components/CreateNoteForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create Note",
+  description: "Create a new note",
+};
 
 const Page = () => {
   return (
     <Container as='main' maxW='6xl'>
-      <NotesForm />
+      <CreateNoteForm />
     </Container>
   );
 };

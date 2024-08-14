@@ -1,14 +1,18 @@
 import { Container } from "@chakra-ui/react";
-import NotesForm from "../components/NotesForm";
+import EditNoteForm from "../components/EditNoteForm";
 import { getNote } from "../api/graphql/services";
+import { Metadata } from "next";
 
-export async function Page({ params }: { params: { id: string } }) {
+export const metadata: Metadata = {
+  title: "Create Note",
+  description: "Create a new note",
+};
+
+export default async function Page({ params }: { params: { id: string } }) {
   const { title, body } = await getNote(params.id);
   return (
     <Container as='main' maxW='6xl'>
-      <NotesForm title={title} body={body} />
+      <EditNoteForm title={title} body={body} />
     </Container>
   );
 }
-
-export default Page;

@@ -12,8 +12,8 @@ export const typeDefs = gql`
     note(id: ID!): Note
   }
   type Mutation {
-    createNote(title: String!, body: String!): Note
-    updateNote(id: ID!, title: String, body: String): Note
-    deleteNote(id: ID!): Note
+    createNote(title: String!, body: String!): Note!
+    updateNote(id: ID!, title: String, body: String): Note!
+    deleteNote(id: ID!): [Note!]
   }
 `;

@@ -10,6 +10,7 @@ export const resolvers = {
       return prisma.note.findUnique({ where: { id: args.id } });
     },
   },
+
   Mutation: {
     createNote: (_: any, args: any) => {
       return prisma.note.create({

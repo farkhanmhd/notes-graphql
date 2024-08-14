@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <Container as='header' maxW='6xl' marginX='auto' position='relative'>
       <Flex minWidth='max-content' alignItems='center' gap='2' height='120px'>
-        <Heading size='lg' color='teal'>
+        <Heading size='lg'>
           <Link href='/'>NotesApp</Link>
         </Heading>
         <Spacer />
