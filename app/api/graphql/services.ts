@@ -195,3 +195,35 @@ export async function updateNote(id: string, prevState: NoteState, formData: For
   revalidatePath(`/${id}`);
   redirect("/");
 }
+
+export async function deleteNote(id: string) {
+  try {
+    await fetch(`${process.env.ENDPOINT}/api/graphql`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+          mutation ($id: ID!) {
+            deleteNote(id: $id) {
+              id
+              title
+              body
+              createdAt
+            }
+          }
+        `,
+        variables: {
+          id,
+        },
+      }),
+    });
+  } catch (error) {
+    return {
+      message: "Failed to delete note",
+    };
+  }
+  revalidatePath("/");
+  redirect("/");
+}
