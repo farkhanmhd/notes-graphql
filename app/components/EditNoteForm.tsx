@@ -1,22 +1,20 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import { useRouter } from "next/navigation";
 import { Input, Textarea, Button, Box, Flex } from "@chakra-ui/react";
 import { IoTrashBinOutline, IoPencilOutline, IoCloseOutline } from "react-icons/io5";
 import { createNote } from "../api/graphql/services";
 import { INotesForm } from "../definitions";
 
 const EditNoteForm = ({ title = "", body = "" }: INotesForm) => {
-  const router = useRouter();
   const initialState = {
-    status: 0,
     message: "",
+    errors: {},
   };
 
-  const [state, dispatch] = useFormState(createNote, initialState);
+  // const [state, dispatch] = useFormState(createNote, initialState);
   return (
-    <form action={dispatch}>
+    <form>
       <Input
         defaultValue={title}
         placeholder='Title...'
@@ -50,13 +48,13 @@ const EditNoteForm = ({ title = "", body = "" }: INotesForm) => {
           <Box as='span'>Delete Note</Box>
         </Button>
         <Box>
-          <Button colorScheme='teal' variant='outline' marginRight='4' onClick={() => router.back()}>
+          <Button colorScheme='teal' variant='outline' marginRight='4' type='reset'>
             <Box as='span' marginRight='2'>
               <IoCloseOutline size={22} />
             </Box>
             <Box as='span'>Cancel</Box>
           </Button>
-          <Button colorScheme='teal' variant='outline'>
+          <Button colorScheme='teal' variant='outline' type='submit'>
             <Box as='span' marginRight='2'>
               <IoPencilOutline size={22} />
             </Box>

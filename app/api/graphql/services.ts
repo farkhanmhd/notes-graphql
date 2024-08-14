@@ -2,19 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
-export type NewNoteState = {
-  errors?: {
-    title?: string;
-    body?: string;
-  };
-  message?: string | null;
-};
+import { z } from "zod";
+import { INotesForm } from "@/app/definitions";
 
 export async function getNotes() {
   try {
     const response = await fetch(`${process.env.ENDPOINT}/api/graphql`, {
-      cache: "no-store",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,11 +78,40 @@ export async function getNote(id: string) {
   }
 }
 
-export async function createNote(prevState: NewNoteState, formData: FormData) {
+const NoteSchema = z.object({
+  id: z.string(),
+  title: z.string().min(1, { message: "Title is required" }),
+  body: z.string().min(1, { message: "Body is required" }),
+  createdAt: z.string(),
+});
+
+type NoteState = {
+  errors?: {
+    title?: string[];
+    body?: string[];
+  };
+  message?: string | null;
+};
+
+const NewNote = NoteSchema.omit({ id: true, createdAt: true });
+
+export async function createNote(prevState: NoteState, formData: FormData) {
+  const validatedFields = NewNote.safeParse({
+    title: formData.get("title"),
+    body: formData.get("body"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing fields, Failed to create note",
+    };
+  }
+
+  const { title, body }: INotesForm = validatedFields.data;
+
   try {
-    const title = formData.get("title");
-    const body = formData.get("body");
-    const response = await fetch(`${process.env.ENDPOINT}/api/graphql`, {
+    await fetch(`${process.env.ENDPOINT}/api/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,17 +133,11 @@ export async function createNote(prevState: NewNoteState, formData: FormData) {
         },
       }),
     });
-
-    if (!response.ok) {
-      throw new Error("Failed to create note");
-    }
-
-    revalidatePath("/");
   } catch (error) {
     return {
-      status: 500,
-      message: (error as Error).message,
+      message: "Failed to create note",
     };
   }
+  revalidatePath("/");
   redirect("/");
 }
