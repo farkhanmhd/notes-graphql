@@ -30,7 +30,7 @@ Notes GraphQL is a full-stack application built with Next.js, GraphQL, PostgreSQ
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/farkhanmhdm/notes-graphql.git
+git clone https://github.com/farkhanmhd/notes-graphql.git
 ```
 
 2. Install dependencies:
