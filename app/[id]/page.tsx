@@ -4,8 +4,8 @@ import { getNote } from "../api/graphql/services";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Create Note",
-  description: "Create a new note",
+  title: "Note Detail",
+  description: "Note Detail",
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
