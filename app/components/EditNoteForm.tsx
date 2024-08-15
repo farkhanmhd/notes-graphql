@@ -64,7 +64,7 @@ const EditNoteForm = ({ title = "", body = "", id }: IUpdateNoteForm) => {
         </Box>
         <Flex justifyContent='end'>
           <Box>
-            <Button colorScheme='teal' variant='outline' marginRight='4' type='reset'>
+            <Button colorScheme='red' variant='outline' marginRight='4' type='reset'>
               <Box as='span' marginRight='2'>
                 <IoCloseOutline size={22} />
               </Box>
